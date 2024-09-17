@@ -89,15 +89,15 @@ internal class FileBaseContextStore : IFileBaseContextStore
                 {
                     case EntityState.Added:
                         table.Create(entry);
-                        break;
+                    break;
 
                     case EntityState.Deleted:
                         table.Delete(entry);
-                        break;
+                    break;
 
                     case EntityState.Modified:
                         table.Update(entry);
-                        break;
+                    break;
                 }
 
                 rowsAffected++;
@@ -119,7 +119,7 @@ internal class FileBaseContextStore : IFileBaseContextStore
     {
         lock (_lock)
         {
-            var entityType = property.DeclaringEntityType;
+            var entityType = (IEntityType)property.DeclaringType;
 
             return EnsureTable(entityType).GetIntegerValueGenerator<TProperty>(
                 property,

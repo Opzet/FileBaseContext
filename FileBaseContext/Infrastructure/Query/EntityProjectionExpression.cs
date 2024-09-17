@@ -30,15 +30,15 @@ public class EntityProjectionExpression : Expression, IPrintableExpression
         if (!derivedType.GetAllBaseTypes().Contains(EntityType))
         {
             throw new InvalidOperationException(
-                @"InMemoryStrings.InvalidDerivedTypeInEntityProjection(
-                    derivedType.DisplayName(), EntityType.DisplayName())");
+           @"InMemoryStrings.InvalidDerivedTypeInEntityProjection(
+                derivedType.DisplayName(), EntityType.DisplayName())");
         }
 
         var readExpressionMap = new Dictionary<IProperty, MethodCallExpression>();
         foreach (var (property, methodCallExpression) in _readExpressionMap)
         {
-            if (derivedType.IsAssignableFrom(property.DeclaringEntityType)
-                || property.DeclaringEntityType.IsAssignableFrom(derivedType))
+            if (derivedType.IsAssignableFrom ((IEntityType)property.DeclaringType)
+                || ((IEntityType)property.DeclaringType).IsAssignableFrom (derivedType))
             {
                 readExpressionMap[property] = methodCallExpression;
             }
@@ -49,8 +49,8 @@ public class EntityProjectionExpression : Expression, IPrintableExpression
 
     public virtual MethodCallExpression BindProperty(IProperty property)
     {
-        if (!EntityType.IsAssignableFrom(property.DeclaringEntityType)
-            && !property.DeclaringEntityType.IsAssignableFrom(EntityType))
+        if ( !EntityType.IsAssignableFrom ((IEntityType)property.DeclaringType)
+            && !((IEntityType)property.DeclaringType).IsAssignableFrom (EntityType))
         {
             throw new InvalidOperationException(
                 "InMemoryStrings.UnableToBindMemberToEntityProjection(\"property\", property.Name, EntityType.DisplayName())");
@@ -100,16 +100,16 @@ public class EntityProjectionExpression : Expression, IPrintableExpression
         return entityProjectionExpression;
     }
 
-    void IPrintableExpression.Print(ExpressionPrinter expressionPrinter)
+    void IPrintableExpression.Print (ExpressionPrinter expressionPrinter)
     {
-        expressionPrinter.AppendLine(nameof(EntityProjectionExpression) + ":");
-        using (expressionPrinter.Indent())
+        expressionPrinter.AppendLine (nameof (EntityProjectionExpression)+":");
+        using (expressionPrinter.Indent ())
         {
             foreach (var (property, methodCallExpression) in _readExpressionMap)
             {
-                expressionPrinter.Append(property + " -> ");
-                expressionPrinter.Visit(methodCallExpression);
-                expressionPrinter.AppendLine();
+                expressionPrinter.Append (property+" -> ");
+                expressionPrinter.Visit (methodCallExpression);
+                expressionPrinter.AppendLine ();
             }
         }
     }
