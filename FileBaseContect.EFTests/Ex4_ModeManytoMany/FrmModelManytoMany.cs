@@ -117,7 +117,6 @@ namespace Ex4_ModelManytoMany
 
         void ReadDbEnrolments()
         {
-
             // WIP : Fails with duplicate key detected.. 
             txtDebug.Text += "\r\n--------- READ ENROLMENTS -------\r\n";
             using (EFModelManytoMany readback = new EFModelManytoMany())
@@ -126,7 +125,6 @@ namespace Ex4_ModelManytoMany
                 var enrollments = readback.Enrollments
                     .Select(e => new
                     {
-                        EnrollmentId = e.Id,
                         StudentId = e.Student.Id,
                         CourseId = e.Course.Id
                     })
@@ -135,7 +133,7 @@ namespace Ex4_ModelManytoMany
                 // Display enrollments by showing students and their courses
                 foreach (var enrol in enrollments)
                 {
-                    txtDebug.Text += $"Enrollment: {enrol.EnrollmentId} {enrol.StudentId} {enrol.CourseId} \r\n";
+                    txtDebug.Text += $"Enrollment: {enrol.StudentId} {enrol.CourseId} \r\n";
                 }
                     // Display enrollments by showing students and their courses
 

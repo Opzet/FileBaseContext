@@ -88,15 +88,6 @@ namespace Ex4_ModelManytoMany
 
       /// <summary>
       /// Identity, Indexed, Required
-      /// Unique identifier
-      /// </summary>
-      [Key]
-      [Required]
-      [System.ComponentModel.Description("Unique identifier")]
-      public long Id { get; set; }
-
-      /// <summary>
-      /// Identity, Indexed, Required
       /// Foreign key for Student.Enrollments &lt;--&gt; Enrollments.Student. 
       /// </summary>
       [Key]

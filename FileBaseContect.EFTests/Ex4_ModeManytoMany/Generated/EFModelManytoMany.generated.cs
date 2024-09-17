@@ -100,11 +100,7 @@ namespace Ex4_ModelManytoMany
 
          modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
                      .ToTable("Enrollments")
-                     .HasKey(t => new { t.Id, t.CoursesId, t.StudentsId });
-         modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
-                     .Property(t => t.Id)
-                     .ValueGeneratedOnAdd()
-                     .IsRequired();
+                     .HasKey(t => new { t.CoursesId, t.StudentsId });
          modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
                      .Property(t => t.CoursesId)
                      .ValueGeneratedNever()

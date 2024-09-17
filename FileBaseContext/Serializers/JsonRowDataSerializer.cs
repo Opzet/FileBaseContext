@@ -19,17 +19,19 @@ public class JsonRowDataSerializer : IRowDataSerializer
         _keyValueFactory = keyValueFactory;
         _keyColumns = CreateKeyColumnsLookup(entityType);
         _jsonOptions = CreateJsonOptions(entityType);
+    }
 
-        static int[] CreateKeyColumnsLookup(IEntityType entityType)
-        {
-            var columnNames = entityType.GetProperties()
-                .Select(p => p.GetColumnName())
-                .ToArray();
+    static int[] CreateKeyColumnsLookup(IEntityType entityType)
+    {
+        var columnNames = entityType.GetProperties()
+            .Select(p => p.GetColumnName())
+            .ToArray();
 
-            return entityType.FindPrimaryKey().Properties
-                .Select(p => Array.IndexOf(columnNames, p.GetColumnName()))
-                .ToArray();
-        }
+        var primaryKey = entityType.FindPrimaryKey();
+
+        return primaryKey.Properties
+            .Select(p => Array.IndexOf(columnNames, p.GetColumnName()))
+            .ToArray();
     }
 
     public string FileExtension => ".json";
@@ -49,25 +51,15 @@ public class JsonRowDataSerializer : IRowDataSerializer
         }
 
         var keyValueFactory = (IPrincipalKeyValueFactory<TKey>)_keyValueFactory;
-        var keyValues = new object[_keyColumns.Length];
         foreach (var rowData in rowsData)
         {
+            var keyValues = new object[_keyColumns.Length];
             var columnValues = rowData.ColumnValues;
 
             for (int i = 0; i<keyValues.Length; i++)
                 keyValues[i]=columnValues[_keyColumns[i]];
 
-
-            TKey key;
-            if (keyValues.Length==1)
-            {
-                key=(TKey)keyValueFactory.CreateFromKeyValues (keyValues);
-            }
-            else
-            {
-                // Handle composite keys, e.g *-*
-                key=(TKey)keyValueFactory.CreateFromKeyValues (new List<object> { columnValues[0] });
-            }
+            TKey key = (TKey)keyValueFactory.CreateFromKeyValues(keyValues);
 
             if (!result.ContainsKey (key))
             {
