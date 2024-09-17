@@ -5,18 +5,23 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>4.0.2</Version>
+		<Version>4.0.3</Version>
 		<Company>k.D.g</Company>
 		<Authors>Kous</Authors>
 		<Description>
       File based database provider for Entity Framework Core.
-      
+
       Easy 'Serverless' file system text file serialised ef db persistance
-      
+
       Works for
       - Unit Test - Mocking
       - Serverless db persistance, easier than Sqlite (Tables are created for one thing)
       - Works cross platform, easy offline persistant data store
+
+      Examples : https://github.com/Opzet/FileBaseContext/tree/main/FileBaseContect.EFTests 
+      
+      More info : https://learn.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli#current-providers
+
     </Description>
 		<Copyright>Copyright © Kostiantyn Usenko</Copyright>
 		<Title>FileBaseContext</Title>
@@ -27,8 +32,8 @@
 		<PackageProjectUrl>https://github.com/Opzet/FileBaseContext</PackageProjectUrl>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<DelaySign>false</DelaySign>
-		<AssemblyVersion>4.0.2.0</AssemblyVersion>
-		<FileVersion>4.0.2.0</FileVersion>
+		<AssemblyVersion>4.0.3.0</AssemblyVersion>
+		<FileVersion>4.0.3.0</FileVersion>
 		<RootNamespace>FileBaseContext</RootNamespace>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
