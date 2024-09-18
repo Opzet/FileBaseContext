@@ -41,69 +41,34 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
 
     public IEnumerable<object[]> Rows => _rows.Values;
 
-    public void Create (IUpdateEntry entry)
+    public void Create(IUpdateEntry entry)
     {
-        bool _showDebugDetails = Debugger.IsAttached;
-
-        //if (_showDebugDetails)
-        //{
-        //    Debug.WriteLine ("Entering Create method.");
-
-        //    // Log the entity type
-        //    Debug.WriteLine ($"EntityType: {entry.EntityType.DisplayName ()}");
-
-        //    // Log the properties of the entity
-        //    var properties = entry.EntityType.GetProperties ();
-        //    Debug.WriteLine ("Entity Properties:");
-        //    foreach (var property in properties)
-        //    {
-        //        var propertyType = property.ClrType;
-        //        var underlyingType = Nullable.GetUnderlyingType (propertyType)??propertyType;
-        //        Debug.WriteLine ($"- {property.Name} (Type: {underlyingType.Name})");
-        //    }
-        //}
-
+        
         // Create a snapshot of the entity's current values
-        var row = entry.EntityType.GetProperties ()
-            .Select (p =>
+        var row = entry.EntityType.GetProperties()
+            .Select(p =>
             {
-                var comparer = GetStructuralComparer (p);
-                var value = SnapshotValue (p, comparer, entry);
-                //if (_showDebugDetails)
-                //{
-                //    Debug.WriteLine ($"Property: {p.Name}, Value: {value}");
-                //}
+                var comparer = GetStructuralComparer(p);
+                var value = SnapshotValue(p, comparer, entry);
                 return value;
             })
-            .ToArray ();
-
-        //if (_showDebugDetails)
-        //{
-        //    // Log the created row
-        //    Debug.WriteLine ("Created Row:");
-        //    for (int i = 0; i<row.Length; i++)
-        //    {
-        //        Debug.WriteLine ($"- {entry.EntityType.GetProperties ().ElementAt (i).Name}: {row[i]}");
-        //    }
-        //}
+            .ToArray();
 
         // Create the key for the new row
-        var key = CreateKey (entry);
-        if (_showDebugDetails)
-        {
-            Debug.WriteLine ($"Created Key: {key}");
-        }
-        // IUpdateEntry duplicates the key for composite keys
-        
-        // Add the new row to the dictionary
-        _rows.Add (key, row);
+        var key = CreateKey(entry);
 
-        if (_showDebugDetails)
+        // Check for duplicate key
+        if (_rows.ContainsKey(key))
         {
-            Debug.WriteLine ("Row added to _rows dictionary.");
-            Debug.WriteLine ("Exiting Create method.");
+            Debug.WriteLine($"<ERROR> FileBaseContextTable : A row with the key '{key}' already exists?\n{entry.EntityType.Name.ToString()}");
+            throw new InvalidOperationException($"FileBaseContextTable : A row with the key '{key}' already exists?\n{entry.EntityType.Name.ToString()}");
         }
+
+        // Add the new row to the dictionary
+        _rows.Add(key, row);
+
     }
+
 
 
 
