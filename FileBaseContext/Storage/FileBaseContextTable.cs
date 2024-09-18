@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FileBaseContext.Storage;
@@ -40,14 +41,69 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
 
     public IEnumerable<object[]> Rows => _rows.Values;
 
-    public void Create(IUpdateEntry entry)
+    public void Create (IUpdateEntry entry)
     {
-        var row = entry.EntityType.GetProperties()
-            .Select(p => SnapshotValue(p, GetStructuralComparer(p), entry))
-            .ToArray();
+        bool _showDebugDetails = Debugger.IsAttached;
 
-        _rows.Add(CreateKey(entry), row);
+        if (_showDebugDetails)
+        {
+            Debug.WriteLine ("Entering Create method.");
+
+            // Log the entity type
+            Debug.WriteLine ($"EntityType: {entry.EntityType.DisplayName ()}");
+
+            // Log the properties of the entity
+            var properties = entry.EntityType.GetProperties ();
+            Debug.WriteLine ("Entity Properties:");
+            foreach (var property in properties)
+            {
+                var propertyType = property.ClrType;
+                var underlyingType = Nullable.GetUnderlyingType (propertyType)??propertyType;
+                Debug.WriteLine ($"- {property.Name} (Type: {underlyingType.Name})");
+            }
+        }
+
+        // Create a snapshot of the entity's current values
+        var row = entry.EntityType.GetProperties ()
+            .Select (p =>
+            {
+                var comparer = GetStructuralComparer (p);
+                var value = SnapshotValue (p, comparer, entry);
+                if (_showDebugDetails)
+                {
+                    Debug.WriteLine ($"Property: {p.Name}, Value: {value}");
+                }
+                return value;
+            })
+            .ToArray ();
+
+        if (_showDebugDetails)
+        {
+            // Log the created row
+            Debug.WriteLine ("Created Row:");
+            for (int i = 0; i<row.Length; i++)
+            {
+                Debug.WriteLine ($"- {entry.EntityType.GetProperties ().ElementAt (i).Name}: {row[i]}");
+            }
+        }
+
+        // Create the key for the new row
+        var key = CreateKey (entry);
+        if (_showDebugDetails)
+        {
+            Debug.WriteLine ($"Created Key: {key}");
+        }
+
+        // Add the new row to the dictionary
+        _rows.Add (key, row);
+        if (_showDebugDetails)
+        {
+            Debug.WriteLine ("Row added to _rows dictionary.");
+            Debug.WriteLine ("Exiting Create method.");
+        }
     }
+
+
 
     public void Load()
     {
