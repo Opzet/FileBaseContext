@@ -45,23 +45,23 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
     {
         bool _showDebugDetails = Debugger.IsAttached;
 
-        if (_showDebugDetails)
-        {
-            Debug.WriteLine ("Entering Create method.");
+        //if (_showDebugDetails)
+        //{
+        //    Debug.WriteLine ("Entering Create method.");
 
-            // Log the entity type
-            Debug.WriteLine ($"EntityType: {entry.EntityType.DisplayName ()}");
+        //    // Log the entity type
+        //    Debug.WriteLine ($"EntityType: {entry.EntityType.DisplayName ()}");
 
-            // Log the properties of the entity
-            var properties = entry.EntityType.GetProperties ();
-            Debug.WriteLine ("Entity Properties:");
-            foreach (var property in properties)
-            {
-                var propertyType = property.ClrType;
-                var underlyingType = Nullable.GetUnderlyingType (propertyType)??propertyType;
-                Debug.WriteLine ($"- {property.Name} (Type: {underlyingType.Name})");
-            }
-        }
+        //    // Log the properties of the entity
+        //    var properties = entry.EntityType.GetProperties ();
+        //    Debug.WriteLine ("Entity Properties:");
+        //    foreach (var property in properties)
+        //    {
+        //        var propertyType = property.ClrType;
+        //        var underlyingType = Nullable.GetUnderlyingType (propertyType)??propertyType;
+        //        Debug.WriteLine ($"- {property.Name} (Type: {underlyingType.Name})");
+        //    }
+        //}
 
         // Create a snapshot of the entity's current values
         var row = entry.EntityType.GetProperties ()
@@ -69,23 +69,23 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
             {
                 var comparer = GetStructuralComparer (p);
                 var value = SnapshotValue (p, comparer, entry);
-                if (_showDebugDetails)
-                {
-                    Debug.WriteLine ($"Property: {p.Name}, Value: {value}");
-                }
+                //if (_showDebugDetails)
+                //{
+                //    Debug.WriteLine ($"Property: {p.Name}, Value: {value}");
+                //}
                 return value;
             })
             .ToArray ();
 
-        if (_showDebugDetails)
-        {
-            // Log the created row
-            Debug.WriteLine ("Created Row:");
-            for (int i = 0; i<row.Length; i++)
-            {
-                Debug.WriteLine ($"- {entry.EntityType.GetProperties ().ElementAt (i).Name}: {row[i]}");
-            }
-        }
+        //if (_showDebugDetails)
+        //{
+        //    // Log the created row
+        //    Debug.WriteLine ("Created Row:");
+        //    for (int i = 0; i<row.Length; i++)
+        //    {
+        //        Debug.WriteLine ($"- {entry.EntityType.GetProperties ().ElementAt (i).Name}: {row[i]}");
+        //    }
+        //}
 
         // Create the key for the new row
         var key = CreateKey (entry);
@@ -93,9 +93,11 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
         {
             Debug.WriteLine ($"Created Key: {key}");
         }
-
+        // IUpdateEntry duplicates the key for composite keys
+        
         // Add the new row to the dictionary
         _rows.Add (key, row);
+
         if (_showDebugDetails)
         {
             Debug.WriteLine ("Row added to _rows dictionary.");
