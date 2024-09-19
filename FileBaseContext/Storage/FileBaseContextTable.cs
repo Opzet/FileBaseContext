@@ -69,9 +69,6 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
 
     }
 
-
-
-
     public void Load()
     {
         _rows = ConvertFromProvider(_fileManager.Load<TKey>(_entityType, _serializer));
