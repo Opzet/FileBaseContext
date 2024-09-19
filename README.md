@@ -108,7 +108,107 @@ FileBaseContext is a provider of Entity Framework Core 8 to store database infor
 [Current developement: forked from this, adjusted namespace, tweaks, published nuget and added examples] 
 Core 8+ 
 
+---
 
+
+## Custom Init Override
+
+```cs
+
+using System;
+using System.Diagnostics;
+using System.IO;
+using FileBaseContext.Extensions;
+using FileBaseContext.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
+namespace CRMDb
+{
+    public partial class CRMDbEF : DbContext
+    {
+        public static string DatabaseName = "my_local_db"; // Will create folder \bin\my_local_db and tables.json files
+        private static string SchemaVersion = "1.0"; // Update this version when schema changes
+        private static string VersionFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DatabaseName, "schema_version.txt");
+        public static string DatabasePath = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, DatabaseName);
+
+        partial void CustomInit(DbContextOptionsBuilder optionsBuilder)
+        {
+        
+            if (HasSchemaChanged())
+            {
+                DeleteOldStore();
+                SaveCurrentSchemaVersion();
+            }
+
+            string location = AppDomain.CurrentDomain.BaseDirectory;
+            
+            Debug.WriteLine ($">CRMDbEF : DbContext -> CustomInit, location: '{location}, databaseName: '{DatabaseName}'");
+            Console.WriteLine ($">CRMDbEF : DbContext -> CustomInit, location: '{location}, databaseName: '{DatabaseName}'");
+            optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName, location: location);
+
+        }
+
+        public void EnsureDatabaseAndSchemaCreated ()
+        {
+            // Ensure the database directory exists
+            Directory.CreateDirectory (DatabasePath);
+
+            // Iterate over all entity types and ensure their corresponding files are created
+            foreach (var entityType in Model.GetEntityTypes ())
+            {
+                string tableName = entityType.GetTableName ();
+                string filePath = Path.Combine (DatabasePath, $"{tableName}.json");
+
+                if (!File.Exists (filePath))
+                {
+                    File.Create (filePath).Dispose (); // Create the file and close it immediately
+                    Debug.WriteLine ($"\tCreated schema file for table: {tableName}");
+                }
+            }
+        }
+
+        public bool DatabaseExists ()
+        {
+            return File.Exists (VersionFilePath);
+        }
+
+        private bool HasSchemaChanged()
+        {
+            if (!File.Exists(VersionFilePath))
+            {
+                return true;
+            }
+
+            string storedVersion = File.ReadAllText(VersionFilePath);
+            return !storedVersion.Equals(SchemaVersion, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void DeleteOldStore()
+        {
+            string contextPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DatabaseName);
+
+            if (Directory.Exists(contextPath))
+            {
+                try
+                {
+                    Directory.Delete(contextPath, true);
+                    Console.WriteLine("Old FileBasedContext store deleted successfully.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while deleting the context store: {ex.Message}");
+                }
+            }
+        }
+
+        private void SaveCurrentSchemaVersion()
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(VersionFilePath));
+            File.WriteAllText(VersionFilePath, SchemaVersion);
+        }
+    }
+}
+```
 
 
 

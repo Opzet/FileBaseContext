@@ -78,10 +78,32 @@ public class FileBaseContextFileManager : IFileBaseContextFileManager
         return rows;
     }
 
-    public void Save<TKey>(IEntityType _entityType, Dictionary<TKey, object[]> objectsMap, IRowDataSerializer serializer)
+
+    public void Save<TKey> (IEntityType _entityType, Dictionary<TKey, object[]> objectsMap, IRowDataSerializer serializer)
     {
-        string path = GetFileName(_entityType, serializer);
-        using var stream = _fileSystem.File.Create(path);
-        serializer.Serialize(stream, objectsMap);
+        string path = GetFileName (_entityType, serializer);
+        try
+        {
+            //Debug.WriteLine ($"Save > Starting to save data for entity: {_entityType.GetTableName ()}");
+            //Debug.WriteLine ($"Save > File path: {path}");
+            //Debug.WriteLine ($"Save > Number of objects to save: {objectsMap.Count}");
+
+            // Ensure the directory exists before saving the file
+            string directory = _fileSystem.Path.GetDirectoryName (path);
+            if (!_fileSystem.Directory.Exists (directory))
+            {
+                Debug.WriteLine ($"Save > Directory does not exist. Creating directory: {directory}");
+                _fileSystem.Directory.CreateDirectory (directory);
+            }
+
+            using var stream = _fileSystem.File.Create (path);
+            serializer.Serialize (stream, objectsMap);
+
+            //Debug.WriteLine ($"Save > File successfully written to: {path}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine ($"Save > An error occurred while saving data to {path}. Exception: {ex.Message}");
+        }
     }
 }
