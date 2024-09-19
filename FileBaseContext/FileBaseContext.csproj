@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>4.0.3</Version>
+		<Version>4.0.4</Version>
 		<Company>k.D.g</Company>
 		<Authors>Kous</Authors>
 		<Description>
@@ -32,8 +32,8 @@
 		<PackageProjectUrl>https://github.com/Opzet/FileBaseContext</PackageProjectUrl>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<DelaySign>false</DelaySign>
-		<AssemblyVersion>4.0.3.0</AssemblyVersion>
-		<FileVersion>4.0.3.0</FileVersion>
+		<AssemblyVersion>4.0.4.0</AssemblyVersion>
+		<FileVersion>4.0.4.0</FileVersion>
 		<RootNamespace>FileBaseContext</RootNamespace>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
