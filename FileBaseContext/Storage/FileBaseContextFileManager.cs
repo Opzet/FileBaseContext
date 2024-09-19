@@ -23,12 +23,14 @@ public class FileBaseContextFileManager : IFileBaseContextFileManager
         string name = _entityType.GetTableName().GetValidFileName();
 
         string path = string.IsNullOrEmpty(_location)
-            ? _fileSystem.Path.Combine(AppContext.BaseDirectory, _databasename)
+            ? _fileSystem.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _databasename)
             : _location;
 
+
         // Ensure the directory exists
-        if(!_fileSystem.Directory.Exists(path.ToLower()))
+        if (!_fileSystem.Directory.Exists(path.ToLower()))
         {
+            Debug.WriteLine ($"Created Database Path = '{path.ToLower ()}'");
             _fileSystem.Directory.CreateDirectory(path);
         }
 

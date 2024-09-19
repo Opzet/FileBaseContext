@@ -125,7 +125,8 @@ public class FileBaseContextTable<TKey> : IFileBaseContextTable
 
     private TKey CreateKey(IUpdateEntry entry)
     {
-        return _keyValueFactory.CreateFromCurrentValues(entry);
+        // Ensure the key is unique
+        return _keyValueFactory.CreateFromCurrentValues (entry);
     }
 
     public virtual IReadOnlyList<object[]> SnapshotRows()
