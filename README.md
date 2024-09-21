@@ -42,6 +42,9 @@ Created with [Entity Framework Visual Editor Extension](https://marketplace.visu
    
 [https://github.com/Opzet/EFDesignerExamples](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore)
 
+
+![image](https://github.com/user-attachments/assets/eee0118c-d966-4835-9084-2e8922b9c72a)
+
 **NUGET** package https://www.nuget.org/packages/EntityFilesystem 
 
 https://learn.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli
