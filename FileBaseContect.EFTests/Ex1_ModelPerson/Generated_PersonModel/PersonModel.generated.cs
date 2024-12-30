@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.7.3
+//     Produced by Entity Framework Visual Editor v4.2.8.1
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -76,10 +76,9 @@ namespace Ex1_ModelPerson
          base.OnModelCreating(modelBuilder);
          OnModelCreatingImpl(modelBuilder);
 
-         modelBuilder.HasDefaultSchema("dbo");
 
          modelBuilder.Entity<global::Ex1_ModelPerson.Person>()
-                     .UseTpcMappingStrategy().ToTable("People")
+                     .UseTpcMappingStrategy().ToTable("People", "dbo")
                      .HasKey(t => t.Id);
          modelBuilder.Entity<global::Ex1_ModelPerson.Person>()
                      .Property(t => t.Id)

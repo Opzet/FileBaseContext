@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.7.3
+//     Produced by Entity Framework Visual Editor v4.2.8.1
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -22,6 +22,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using NetTopologySuite.Geometries;
 
 namespace Ex1_ModelPerson
 {
@@ -70,6 +71,8 @@ namespace Ex1_ModelPerson
       [MaxLength(35)]
       [StringLength(35)]
       public string LastName { get; set; }
+
+      public Geometry Location { get; set; }
 
       /// <summary>
       /// Max length = 35

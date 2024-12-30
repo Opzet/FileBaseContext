@@ -40,6 +40,9 @@ namespace Ex1_ModelPerson
 
                 txtDebug.Text += "Creating DB...\r\n";
                 context.Database.EnsureCreated();
+                
+                //context.HasSchemaChanged()
+
                 txtDebug.Text += "Created DB\r\n";
 
                 List<Person> people = GeneratePeople(500);
@@ -98,8 +101,8 @@ namespace Ex1_ModelPerson
                 .RuleFor(p => p.FirstName, f => f.Name.FirstName())
                 .RuleFor(p => p.LastName, f => f.Name.LastName())
                 // Make Mobile phone number format (eg. 04## ### ###)
-                .RuleFor(p => p.Phone, f => f.Phone.PhoneNumber("04## ### ###"));
-
+                .RuleFor(p => p.Phone, f => f.Phone.PhoneNumber("04## ### ###"))
+            .RuleFor(p => p.Location, f => new NetTopologySuite.Geometries.Point(f.Address.Latitude(), f.Address.Longitude()) { SRID = 4326 });
             return personFaker.Generate(count);
         }
 

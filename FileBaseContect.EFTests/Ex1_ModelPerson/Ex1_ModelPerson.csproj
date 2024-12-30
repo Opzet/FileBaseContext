@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Bogus" />
+    <PackageReference Include="NetTopologySuite" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated_PersonModel\" />
@@ -16,6 +17,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\FileBaseContext\FileBaseContext.csproj" />
     <!--<PackageReference Include="EntityFilesystem" Version="4.0.2" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.Entity">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Data.Entity.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Update="PersonModel.tt">
