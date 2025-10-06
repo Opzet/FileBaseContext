@@ -4,9 +4,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>4.0.5</Version>
-    <Company>k.D.g</Company>
-    <Authors>Kous</Authors>
+    <Version>4.0.6</Version>
+    <Company></Company>
+    <Authors>Opzet</Authors>
     <Description>
       File based database provider for Entity Framework Core.
 
@@ -23,10 +23,11 @@
 
     </Description>
     <PackageReleaseNotes>
-      4.0.5 Updated Nuget Dependacies
-    </PackageReleaseNotes>
+			4.0.5 Updated Nuget Dependacies
+			4.0.6 Updated Nuget Dependacies
+		</PackageReleaseNotes>
     
-    <Copyright>Copyright © Kostiantyn Usenko</Copyright>
+    <Copyright>MIT</Copyright>
     <Title>FileBaseContext</Title>
     <PackageLicenseUrl>
     </PackageLicenseUrl>
@@ -36,8 +37,8 @@
     <PackageProjectUrl>https://github.com/Opzet/FileBaseContext</PackageProjectUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
     <DelaySign>false</DelaySign>
-    <AssemblyVersion>4.0.5.0</AssemblyVersion>
-    <FileVersion>4.0.5.0</FileVersion>
+    <AssemblyVersion>4.0.6.0</AssemblyVersion>
+    <FileVersion>4.0.6.0</FileVersion>
     <RootNamespace>FileBaseContext</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
