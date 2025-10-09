@@ -30,7 +30,7 @@ partial void CustomInit(DbContextOptionsBuilder optionsBuilder)
 
 ## Examples 
 
-Created with [Entity Framework Visual Editor Extension](https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner2022) from Visual Studio Marketplace also get latest extension (.visx) [from GitHub for 2022+]([https://github.com/Opzet/EFDesigner2022-26/tree/master/dist](https://github.com/Opzet/EFDesigner2022-26/blob/master/dist/Sawczyn.EFDesigner.EFModel.DslPackage.vsix)) (e.g 2026 insiders )  - Ill publish to market place when I figure it out.
+Created with [Entity Framework Visual Editor Extension](https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner2022) from Visual Studio Marketplace also get latest extension (.visx) [from GitHub for 2022+](https://github.com/Opzet/EFDesigner2022-26/tree/master/dist](https://github.com/Opzet/EFDesigner2022-26/blob/master/dist/Sawczyn.EFDesigner.EFModel.DslPackage.vsix)  (e.g 2026 insiders )  - Ill publish to market place when I figure it out.
 
 
  - [Ex1_ModelPerson](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex1_ModelPerson)
